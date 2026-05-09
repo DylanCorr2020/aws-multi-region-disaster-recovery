@@ -18,21 +18,19 @@ resource "aws_instance" "instance-eu-west-1a-pr" {
   #Attach SSM policy 
   iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
 
-  #User data script to install apache web server on boot 
-  #user_data = <<-EOF
-                #!/bin/bash
-                #apt update -y
-                #apt install httpd -y
-                #systemctl start httpd
-                #systemctl enable httpd
-                #echo "instance-eu-west-1a-pr" > /var/www/html/index.html
-                #EOF
-
+  user_data = <<-EOF
+               #!/bin/bash
+               apt-get update -y
+               apt-get install apache2 -y
+               echo <h1> Welcome to my primary EC2 </h1> > /var/www/html/index.html
+               sudo systemctl start apache2
+               EOF
   tags = {
 
     Name = "instance-eu-west-1a-pr"
 
   }
+
 
 }
 

@@ -46,7 +46,7 @@ resource "aws_route_table" "public-rt-eu-west1-1" {
 
 }
 
-#Attach Public Subnet to Route Table 
+#Associate Public Subnet to Route Table 
 resource "aws_route_table_association" "public-rt-association-eu-west-1" {
 
   subnet_id      = aws_subnet.public-s-eu-west-1.id
