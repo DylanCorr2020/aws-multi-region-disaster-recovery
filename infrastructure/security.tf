@@ -1,5 +1,7 @@
 # ===============  Security Group for Primary EC2 Instance EU-WEST-1 ==============================
 
+#Created a security group to allow inbound web traffic on port 80 and outbound internet access for installing the Apache web server.
+
 # Create a security group 
 resource "aws_security_group" "SG-eu-west-1" {
   description = "Security group to allow traffic on ports"

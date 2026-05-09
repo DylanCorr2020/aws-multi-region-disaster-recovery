@@ -1,5 +1,3 @@
-
-
 # ====================== Create VPC for EU-WEST-1 ==============================
 
 # Created a VPC with a public subnet and a route table that routes traffic to an internet gateway.
@@ -57,3 +55,56 @@ resource "aws_route_table_association" "public-rt-association-eu-west-1" {
 
 # ====================== Create VPC for EU-WEST-2 ==============================
 
+# Created a VPC with a public subnet and a route table that routes traffic to an internet gateway.
+
+# Create VPC
+resource "aws_vpc" "vpc-eu-west-2" {
+
+  provider   = aws.euwest2
+  cidr_block = "10.0.0.0/16"
+
+  tags = {
+    Name = "vpc-eu-west-2"
+  }
+}
+
+# Public Subnet for eu-west-2 
+resource "aws_subnet" "public-s-eu-west-2" {
+
+  vpc_id     = aws_vpc.vpc-eu-west-2.id
+  provider   = aws.euwest2
+  cidr_block = "10.0.1.0/24"
+  tags = {
+    Name = "public-subnet-eu-west-2"
+  }
+}
+
+# Internet gateway for eu-west-1a
+resource "aws_internet_gateway" "ig-eu-west-2" {
+  vpc_id   = aws_vpc.vpc-eu-west-2.id
+  provider = aws.euwest2
+  tags = {
+    Name = "internet-gateway-eu-west-2"
+  }
+}
+
+
+#Public Route Table 
+resource "aws_route_table" "public-rt-eu-west-2" {
+
+  vpc_id   = aws_vpc.vpc-eu-west-2.id
+  provider = aws.euwest2
+  route {
+    cidr_block = "0.0.0.0/0" #any ip address in public subnet routes to internet gateway
+    gateway_id = aws_internet_gateway.ig-eu-west-2.id
+  }
+
+}
+
+#Associate Public Subnet to Route Table 
+resource "aws_route_table_association" "public-rt-association-eu-west-2" {
+
+  provider       = aws.euwest2
+  subnet_id      = aws_subnet.public-s-eu-west-2.id
+  route_table_id = aws_route_table.public-rt-eu-west-2.id
+}

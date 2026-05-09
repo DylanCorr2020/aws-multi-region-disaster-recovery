@@ -2,8 +2,6 @@
 
 
 # ====================== Create Primary EC2 Instance for EU-WEST-1 ==============================
-
-
 resource "aws_instance" "instance-eu-west-1a-pr" {
 
   instance_type = "t2.micro"
@@ -30,8 +28,6 @@ resource "aws_instance" "instance-eu-west-1a-pr" {
     Name = "instance-eu-west-1a-pr"
 
   }
-
-
 }
 
 
