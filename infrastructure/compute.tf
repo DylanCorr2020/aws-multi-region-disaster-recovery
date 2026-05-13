@@ -37,11 +37,14 @@ resource "aws_instance" "instance_eu_west_1a_pr" {
 resource "aws_instance" "instance_eu_west_2a_dr" {
 
   instance_type = "t2.micro"
-  ami           = "ami-0de864d6a3bd20ea8" #ubuntu
+  ami           = "ami-0d114020bf27f27cf" #ubuntu
 
   #associate_public_ip_address = true
 
+  provider = aws.euwest2
+
   subnet_id = aws_subnet.public_s_eu_west_2a.id
+
 
   vpc_security_group_ids = [aws_security_group.sg_eu_west_2_dr.id]
 
