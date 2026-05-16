@@ -8,7 +8,6 @@ resource "aws_instance" "instance_eu_west_1a_pr" {
   ami           = "ami-0de864d6a3bd20ea8" #ubuntu
 
   #associate_public_ip_address = true
-
   subnet_id = aws_subnet.public_s_eu_west_1a.id
 
   vpc_security_group_ids = [aws_security_group.sg_eu_west_1_pr.id]
@@ -28,6 +27,15 @@ resource "aws_instance" "instance_eu_west_1a_pr" {
     Name = "instance-eu-west-1a-pr"
 
   }
+}
+
+
+# Create Elastic IP for instance-eu-west-1a-pr
+
+resource "aws_eip" "eip_eu_west_1a_pr" {
+  instance = aws_instance.instance_eu_west_1a_pr.id
+  provider = aws.euwest1
+  domain   = "vpc"
 }
 
 
@@ -65,4 +73,12 @@ resource "aws_instance" "instance_eu_west_2a_dr" {
   }
 }
 
+
+# Create Elastic IP for instance-eu-west-2a-dr
+
+resource "aws_eip" "eip_eu_west_2a_dr" {
+  instance = aws_instance.instance_eu_west_2a_dr
+  provider = aws.euwest2
+  domain   = "vpc"
+}
 
