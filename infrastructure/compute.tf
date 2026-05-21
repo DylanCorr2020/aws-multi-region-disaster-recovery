@@ -77,7 +77,7 @@ resource "aws_instance" "instance_eu_west_2a_dr" {
 # Create Elastic IP for instance-eu-west-2a-dr
 
 resource "aws_eip" "eip_eu_west_2a_dr" {
-  instance = aws_instance.instance_eu_west_2a_dr
+  instance = aws_instance.instance_eu_west_2a_dr.id
   provider = aws.euwest2
   domain   = "vpc"
 }
