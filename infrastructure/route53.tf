@@ -22,7 +22,7 @@ resource "aws_route53_health_check" "health_check_instance_eu_west_1a_pr" {
 
 }
 
-#Create record for primary ec2 
+#Create DNS failover record for primary ec2 
 resource "aws_route53_record" "primary_ec2_record" {
   zone_id = data.aws_route53_zone.hosted_zone.id
   name    = "pilotlightdr.xyz"
@@ -42,7 +42,7 @@ resource "aws_route53_record" "primary_ec2_record" {
 }
 
 
-#Create record for secondary ec2 
+#Create DNS failover record for secondary ec2 
 resource "aws_route53_record" "secondary_ec2_record" {
   zone_id = data.aws_route53_zone.hosted_zone.id
   name    = "pilotlightdr.xyz"
