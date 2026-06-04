@@ -2,7 +2,8 @@
 #Create SNS topic 
 resource "aws_sns_topic" "dr_failover_alerts" {
   name     = "dr-failover-alerts"
-  provider = aws.euwest1
+  provider = aws.useast1
+
 }
 
 #Create subscription 
@@ -10,14 +11,15 @@ resource "aws_sns_topic_subscription" "dr_failover_email_alert" {
   topic_arn = aws_sns_topic.dr_failover_alerts.arn
   protocol  = "email"
   endpoint  = "dylancorr.g@gmail.com"
-  provider  = aws.euwest1
+  provider  = aws.useast1
+
 }
 
 #Every 60 seconds, check Route 53 health status for this endpoint.
 #If it is 0 (unhealthy) even once, immediately send an SNS email alert.
 resource "aws_cloudwatch_metric_alarm" "healthcheck_status_eu_west_1a" {
 
-  provider = aws.euwest1
+  provider = aws.useast1
 
   alarm_name          = "healthcheck-status-eu-west-1a"
   comparison_operator = "LessThanThreshold"
@@ -38,5 +40,7 @@ resource "aws_cloudwatch_metric_alarm" "healthcheck_status_eu_west_1a" {
   alarm_actions = [
     aws_sns_topic.dr_failover_alerts.arn
   ]
+
+  treat_missing_data = "breaching"
 }
 

@@ -9,6 +9,7 @@ data "aws_route53_zone" "hosted_zone" {
 #Create health check for ec2-instance-1a-pr 
 resource "aws_route53_health_check" "health_check_instance_eu_west_1a_pr" {
   ip_address        = aws_eip.eip_eu_west_1a_pr.public_ip
+  provider          = aws.useast1
   port              = 80
   type              = "HTTP"
   resource_path     = "/"
