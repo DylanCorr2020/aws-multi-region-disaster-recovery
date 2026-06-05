@@ -6,13 +6,21 @@ resource "aws_sns_topic" "dr_failover_alerts" {
 
 }
 
-#Create subscription 
+#Create subscription for email 
 resource "aws_sns_topic_subscription" "dr_failover_email_alert" {
   topic_arn = aws_sns_topic.dr_failover_alerts.arn
   protocol  = "email"
   endpoint  = "dylancorr.g@gmail.com"
   provider  = aws.useast1
 
+}
+
+# SNS subscription - Lambda subscribes to the topic
+resource "aws_sns_topic_subscription" "dr_failover_lambda_alert" {
+  topic_arn = aws_sns_topic.dr_failover_alerts.arn
+  protocol  = "lambda"
+  endpoint  = aws_lambda_function.ec2_start_lambda_function.arn
+  provider = aws.useast1
 }
 
 #Every 60 seconds, check Route 53 health status for this endpoint.

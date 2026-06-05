@@ -14,3 +14,15 @@ resource "aws_lambda_function" "ec2_start_lambda_function" {
   #Terraform to detect changes when the zip updates
   source_code_hash = filebase64sha256("lambda.zip")
 }
+
+
+
+# Permission for SNS to invoke Lambda
+resource "aws_lambda_permission" "sns_invoke" {
+  statement_id  = "AllowSNSInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.ec2_start_lambda_function.function_name
+  principal     = "sns.amazonaws.com"
+  source_arn    = aws_sns_topic.dr_failover_alerts.arn
+  provider = aws.useast1
+}

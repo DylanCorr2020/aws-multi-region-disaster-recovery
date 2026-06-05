@@ -62,11 +62,11 @@ resource "aws_iam_role_policy" "my_ec2_start_policy" {
         "ec2:StartInstances",
         "ec2:StopInstances",
         "logs:CreateLogGroup",
-        "logs:PutLogEvents"
+        "logs:PutLogEvents",
 
       ]
       Effect    = "Allow"
-      Rescource = "*"
+      Resource = "*"
     }]
   })
 }
