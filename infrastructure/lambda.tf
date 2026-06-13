@@ -10,6 +10,7 @@ resource "aws_lambda_function" "ec2_start_lambda_function" {
   role          = aws_iam_role.ec2_start_lambda_role.arn
   filename      = "lambda.zip"
   provider      = aws.useast1
+  timeout       = 30
 
   #Terraform to detect changes when the zip updates
   #source_code_hash = filebase64sha256("lambda.zip")
