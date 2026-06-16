@@ -4,8 +4,8 @@
 # ====================== Create Primary EC2 Instance for EU-WEST-1 ==============================
 resource "aws_instance" "instance_eu_west_1a_pr" {
 
-  instance_type = "t2.micro"
-  ami           = "ami-0de864d6a3bd20ea8" #ubuntu
+  instance_type = var.instance_type
+  ami           = var.ami_eu_west_1 #ubuntu
 
   #associate_public_ip_address = true
   subnet_id = aws_subnet.public_s_eu_west_1a.id
@@ -44,8 +44,8 @@ resource "aws_eip" "eip_eu_west_1a_pr" {
 
 resource "aws_instance" "instance_eu_west_2a_dr" {
 
-  instance_type = "t2.micro"
-  ami           = "ami-0d114020bf27f27cf" #ubuntu
+  instance_type = var.instance_type
+  ami           = var.ami_eu_west_2 #ubuntu
 
   #associate_public_ip_address = true
 
