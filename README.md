@@ -1,6 +1,6 @@
 # AWS Multi-Region Pilot Light Disaster Recovery with Terraform
 
-<img width="100%" height="500" alt="Image" src="https://github.com/user-attachments/assets/827c4edb-07e0-4de1-8ec5-8ec335b6e366" />
+<img width="100%" height="400" alt="Image" src="https://github.com/user-attachments/assets/827c4edb-07e0-4de1-8ec5-8ec335b6e366" />
 
 
 ## Project Overview
