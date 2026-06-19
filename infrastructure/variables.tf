@@ -29,3 +29,10 @@ variable "project_name" {
   default     = "pilot-light-dr"
 }
 
+
+variable "aws_route53_zone" {
+  description = "domain name"
+  type = string
+  default = "pilotlight.xyz"
+  
+}
