@@ -1,12 +1,22 @@
-# ☁️ AWS Multi-Region Pilot Light Disaster Recovery (Terraform) 
+# ☁️ AWS Multi-Region Pilot Light Disaster Recovery (Terraform)
 
-## Overview
+## 🚀 Overview
 
-This project implements a **Pilot Light Disaster Recovery architecture** on AWS using Terraform.
+This project implements a **Pilot Light Disaster Recovery (DR) architecture on AWS using Terraform**.
 
-A primary application runs in **eu-west-1 (Ireland)**, while a minimal standby environment is deployed in **eu-west-2 (London)**. The secondary region remains powered off under normal operation to reduce cost.
+A production workload runs in **eu-west-1 (Ireland)**, while a minimal standby environment is deployed in **eu-west-2 (London)**. The secondary region remains in a scaled-down state under normal operation to optimize cost.
 
-In the event of a failure, automated monitoring triggers a failover process that starts the standby infrastructure and redirects traffic using Route 53.
+In the event of a regional failure, automated monitoring and event-driven automation initiate failover, bringing the standby environment online and redirecting traffic via **Amazon Route 53**.
+
+---
+
+## 🤔 Why Pilot Light?
+
+A Pilot Light strategy was chosen to balance **cost efficiency** and **recovery speed**.
+
+Only essential infrastructure components are kept running in the secondary region, allowing rapid scaling during failover while avoiding the cost of fully duplicated environments.
+
+---
 
 ## 📘 Learn More
 
@@ -18,9 +28,29 @@ For a full breakdown of the architecture, challenges, and decisions, check out t
 
 ## 🏗️ Architecture
 
-The solution uses Route 53 health checks, CloudWatch alarms, SNS notifications, and Lambda automation to orchestrate failover between regions.
+The solution is built around AWS-native observability and automation services:
 
-<img width="100%" height="929" alt="Image" src="https://github.com/user-attachments/assets/70a666c6-ca03-48cc-9339-d06b383560b0" />
+- **Route 53** health checks continuously monitor the primary region
+- **CloudWatch** alarms detect service degradation or failure
+- **SNS** triggers notifications and event fan-out
+- **AWS Lambda** orchestrates recovery actions
+- **EC2** instances in the secondary region are started on demand
+
+A full architecture diagram is included below:
+
+<img width="100%" height="929" alt="Image" src="https://github.com/user-attachments/assets/e8b188d4-f1ff-4bde-969e-4b2757ffdea4" />
+
+---
+
+## 🔁 Failover Flow
+
+1. Route 53 continuously monitors the primary endpoint
+2. Health check failure is detected
+3. CloudWatch alarm enters **ALARM** state
+4. SNS publishes a notification event
+5. Lambda function is invoked
+6. Standby EC2 instance is started in eu-west-2
+7. Route 53 routes traffic to the healthy region
 
 ---
 
@@ -35,7 +65,10 @@ The solution uses Route 53 health checks, CloudWatch alarms, SNS notifications, 
 - Amazon VPC
 - Internet Gateway
 - Security Groups
-- Route 53 (Failover Routing + Health Checks)
+
+### Traffic Management
+
+- Amazon Route 53 (Health Checks & Failover Routing)
 
 ### Observability
 
@@ -45,8 +78,8 @@ The solution uses Route 53 health checks, CloudWatch alarms, SNS notifications, 
 ### Automation
 
 - AWS Lambda
-- AWS IAM
 - AWS Systems Manager (SSM)
+- AWS IAM
 
 ### Infrastructure as Code
 
@@ -54,21 +87,9 @@ The solution uses Route 53 health checks, CloudWatch alarms, SNS notifications, 
 
 ---
 
-## 🔁 Failover Flow
-
-1. Route 53 continuously monitors the primary endpoint
-2. Health check failure is detected
-3. CloudWatch alarm enters **ALARM** state
-4. SNS sends an email notification
-5. SNS triggers a Lambda function
-6. Lambda starts the standby EC2 instance in eu-west-2
-7. Route 53 routes traffic to the healthy region
-
----
-
 ## 📂 Project Structure
 
-```text
+```
 infrastructure/
 ├── backend.tf
 ├── compute.tf
@@ -88,71 +109,70 @@ lambda/
 
 ---
 
-## ✅ Prerequisites
+## ⚙️ Prerequisites
 
-- AWS account with credentials configured
-- Registered Route 53 domain
-- Email address for SNS notifications
-- Terraform installed locally
+Before deployment, ensure you have:
 
-## ⚙️ Configuration Notes
+- An AWS account with configured credentials (`aws configure` or environment variables)
+- A Route 53-hosted domain
+- An email address for SNS notifications
+- Terraform >= 1.5 installed locally
 
-- Route 53 domain variables in variables.tf
-- SNS notification email in variables.tf
-- Terraform backend configuration (if using remote state)
+---
 
 ## 🚀 Deployment
 
-### Clone Repository
+### 1. Clone the repository
 
 ```bash
 git clone <repository-url>
-
 cd infrastructure
 ```
 
-### Initialize Terraform
+### 2. Initialize Terraform
 
 ```bash
 terraform init
 ```
 
-### Review Planned Changes
+### 3. Review the execution plan
 
 ```bash
 terraform plan
 ```
 
-### Deploy Infrastructure
+### 4. Deploy infrastructure
 
 ```bash
 terraform apply
 ```
 
-### Destroy Infrastructure
+### ⚠️ Destroy infrastructure
 
 ```bash
 terraform destroy
 ```
 
+> Warning: This will permanently delete all deployed resources.
+
 ---
 
 ## 🧪 Future Improvements
 
-- Auto Scaling Groups (ASGs)
-- Application Load Balancer (ALB)
-- AWS Global Accelerator
-- Terraform Modules
-- Automated Failback
+- Application Load Balancer (ALB) integration
+- Auto Scaling Groups (ASGs) for dynamic capacity
+- AWS Global Accelerator for improved failover routing
+- Terraform module refactoring for scalability
+- Automated failback mechanisms
 
 ---
 
 ## 👨‍💻 Author
 
-Built as a hands-on AWS Disaster Recovery project demonstrating:
+Built as a hands-on cloud engineering project demonstrating:
 
-- Multi-region architecture design
+- Multi-region AWS architecture design
 - Infrastructure as Code with Terraform
-- Automated monitoring and failover
-- Serverless recovery orchestration
-- AWS disaster recovery best practices
+- Event-driven automation with AWS Lambda
+- Cloud monitoring and failover strategies
+- Production-style disaster recovery patterns
