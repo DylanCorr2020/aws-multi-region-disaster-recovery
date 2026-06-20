@@ -116,12 +116,22 @@ Before deployment, ensure you have the following:
 
 ---
 
+## ⚙️ Configuration
+
+Before deploying the infrastructure, ensure the following variables are updated:
+
+- `alert_email` → Email address for SNS notifications (defined in `variables.tf`)
+- `aws_route53_zone` → Your registered Route 53 hosted zone (defined in `variables.tf`)
+- `backend S3 bucket` → Remote state storage bucket (defined in `backend.tf`)
+
+---
+
 ## 🚀 Deployment
 
 ### 1. Clone the repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/DylanCorr2020/aws-multi-region-disaster-recovery.git
 cd infrastructure
 ```
 
