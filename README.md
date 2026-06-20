@@ -1,4 +1,4 @@
-# AWS Multi-Region Pilot Light Disaster Recovery (Terraform) ☁️
+# ☁️ AWS Multi-Region Pilot Light Disaster Recovery (Terraform) 
 
 ## Overview
 
@@ -8,15 +8,15 @@ A primary application runs in **eu-west-1 (Ireland)**, while a minimal standby e
 
 In the event of a failure, automated monitoring triggers a failover process that starts the standby infrastructure and redirects traffic using Route 53.
 
-## Full Project Walkthrough 📘
+## 📘 Learn More
 
-A detailed breakdown of the architecture, implementation, troubleshooting process, and failover testing can be found in the accompanying Medium article.
+For a full breakdown of the architecture, challenges, and decisions, check out the Medium post:
 
-**Medium Article:** _(https://medium.com/@dylancorr.g/building-a-multi-region-disaster-recovery-solution-on-aws-with-terraform-695a9c305dfb)_
+👉 [Read the Case Study](https://medium.com/@dylancorr.g/building-a-multi-region-disaster-recovery-solution-on-aws-with-terraform-695a9c305dfb)
 
 ---
 
-## Architecture 🏗️
+## 🏗️ Architecture
 
 The solution uses Route 53 health checks, CloudWatch alarms, SNS notifications, and Lambda automation to orchestrate failover between regions.
 
@@ -24,7 +24,7 @@ The solution uses Route 53 health checks, CloudWatch alarms, SNS notifications, 
 
 ---
 
-## Tech Stack 🧰
+## 🧰 Tech Stack
 
 ### Compute
 
@@ -54,7 +54,7 @@ The solution uses Route 53 health checks, CloudWatch alarms, SNS notifications, 
 
 ---
 
-## Failover Flow 🔁
+## 🔁 Failover Flow
 
 1. Route 53 continuously monitors the primary endpoint
 2. Health check failure is detected
@@ -66,7 +66,7 @@ The solution uses Route 53 health checks, CloudWatch alarms, SNS notifications, 
 
 ---
 
-## Project Structure 📂
+## 📂 Project Structure
 
 ```text
 infrastructure/
@@ -88,20 +88,20 @@ lambda/
 
 ---
 
-## Prerequisites ✅
+## ✅ Prerequisites
 
 - AWS account with credentials configured
 - Registered Route 53 domain
 - Email address for SNS notifications
 - Terraform installed locally
 
-## Configuration Notes ⚙️
+## ⚙️ Configuration Notes
 
 - Route 53 domain variables in variables.tf
 - SNS notification email in variables.tf
 - Terraform backend configuration (if using remote state)
 
-## Deployment 🚀
+## 🚀 Deployment
 
 ### Clone Repository
 
@@ -137,7 +137,7 @@ terraform destroy
 
 ---
 
-## Future Improvements
+## 🧪 Future Improvements
 
 - Auto Scaling Groups (ASGs)
 - Application Load Balancer (ALB)
@@ -147,7 +147,7 @@ terraform destroy
 
 ---
 
-## Author 👨‍💻
+## 👨‍💻 Author
 
 Built as a hands-on AWS Disaster Recovery project demonstrating:
 
