@@ -14,7 +14,7 @@ In the event that the primary EC2 fails, automated monitoring and event-driven a
 
 ## 🤔 Why Pilot Light?
 
-## A Pilot Light strategy was chosen to balance **cost efficiency** and **recovery speed** when a failure occurs.
+A Pilot Light strategy was chosen to balance **cost efficiency** and **recovery speed** when a failure occurs.
 
 ## 📘 Learn More
 
@@ -142,7 +142,6 @@ terraform plan
 ```bash
 terraform apply
 ```
-
 
 ## 🧪 Future Improvements
 
