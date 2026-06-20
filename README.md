@@ -1,62 +1,72 @@
-# AWS Multi-Region Pilot Light Disaster Recovery with Terraform
+# AWS Multi-Region Pilot Light Disaster Recovery (Terraform) ☁️
 
+## Overview
 
-## Project Overview
+This project implements a **Pilot Light Disaster Recovery architecture** on AWS using Terraform.
 
-This project demonstrates a multi-region Pilot Light Disaster Recovery solution built on AWS using Terraform.
+A primary application runs in **eu-west-1 (Ireland)**, while a minimal standby environment is deployed in **eu-west-2 (London)**. The secondary region remains powered off under normal operation to reduce cost.
 
-The primary application runs on an EC2 instance in the eu-west-1 (Ireland) region. A secondary EC2 instance is deployed in eu-west-2 (London) and remains stopped during normal operation to reduce costs.
+In the event of a failure, automated monitoring triggers a failover process that starts the standby infrastructure and redirects traffic using Route 53.
 
-Amazon Route 53 health checks monitor the primary application. When a failure is detected, CloudWatch triggers an alarm, SNS sends an email notification, and Lambda automatically starts the disaster recovery EC2 instance. Route 53 then redirects traffic to the healthy environment.
-
-## Full Project Walkthrough
+## Full Project Walkthrough 📘
 
 A detailed breakdown of the architecture, implementation, troubleshooting process, and failover testing can be found in the accompanying Medium article.
 
-**Medium Article:** *(Add link here once published)*
+**Medium Article:** _(https://medium.com/@dylancorr.g/building-a-multi-region-disaster-recovery-solution-on-aws-with-terraform-695a9c305dfb)_
 
 ---
 
-## Architecture
+## Architecture 🏗️
 
-The following diagram illustrates the failover workflow and AWS services used in the solution.
+The solution uses Route 53 health checks, CloudWatch alarms, SNS notifications, and Lambda automation to orchestrate failover between regions.
 
 <img width="100%" height="929" alt="Image" src="https://github.com/user-attachments/assets/70a666c6-ca03-48cc-9339-d06b383560b0" />
 
 ---
 
-## Tech Stack
+## Tech Stack 🧰
 
-- Terraform
+### Compute
+
 - Amazon EC2
+
+### Networking
+
 - Amazon VPC
-- Security Groups
 - Internet Gateway
-- Route 53 Failover Routing
-- Route 53 Health Checks
+- Security Groups
+- Route 53 (Failover Routing + Health Checks)
+
+### Observability
+
 - Amazon CloudWatch
 - Amazon SNS
+
+### Automation
+
 - AWS Lambda
 - AWS IAM
 - AWS Systems Manager (SSM)
 
----
+### Infrastructure as Code
 
-
-## Failover Workflow
-
-1. Route 53 monitors the primary EC2 instance using a health check
-2. The primary application becomes unavailable
-3. Route 53 health check detects the failure
-4. CloudWatch transitions into the ALARM state
-5. SNS sends an email notification
-6. SNS invokes a Lambda function
-7. Lambda starts the disaster recovery EC2 instance
-8. Route 53 redirects traffic to the secondary environment
+- Terraform
 
 ---
 
-## Project Structure
+## Failover Flow 🔁
+
+1. Route 53 continuously monitors the primary endpoint
+2. Health check failure is detected
+3. CloudWatch alarm enters **ALARM** state
+4. SNS sends an email notification
+5. SNS triggers a Lambda function
+6. Lambda starts the standby EC2 instance in eu-west-2
+7. Route 53 routes traffic to the healthy region
+
+---
+
+## Project Structure 📂
 
 ```text
 infrastructure/
@@ -78,22 +88,20 @@ lambda/
 
 ---
 
-## Prerequisites
+## Prerequisites ✅
 
-Before deploying the solution, ensure the following requirements are met:
+- AWS account with credentials configured
+- Registered Route 53 domain
+- Email address for SNS notifications
+- Terraform installed locally
 
-- AWS account
-- AWS credentials configured locally
-- Registered Route 53 domain name
-- Valid email address for SNS notifications
-- Terraform installed
-- Update Route 53 domain variables in `variables.tf`
-- Update the SNS notification email address in `variables.tf`
-- Configure Terraform backend settings if using remote state
+## Configuration Notes ⚙️
 
----
+- Route 53 domain variables in variables.tf
+- SNS notification email in variables.tf
+- Terraform backend configuration (if using remote state)
 
-## Deployment
+## Deployment 🚀
 
 ### Clone Repository
 
@@ -139,12 +147,12 @@ terraform destroy
 
 ---
 
-## Author
+## Author 👨‍💻
 
-Created as a hands-on AWS Disaster Recovery project to demonstrate:
+Built as a hands-on AWS Disaster Recovery project demonstrating:
 
 - Multi-region architecture design
-- Infrastructure as Code (Terraform)
-- AWS monitoring and alerting
-- Serverless automation with Lambda
-- Disaster Recovery best practices
+- Infrastructure as Code with Terraform
+- Automated monitoring and failover
+- Serverless recovery orchestration
+- AWS disaster recovery best practices
