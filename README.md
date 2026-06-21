@@ -38,11 +38,11 @@ A full architecture diagram is included below:
 
 4. SNS publishes a notification to admin when CloudWatch enters the **ALARM** state.
 
-5. A Lambda function is invoked using Boto3 and starts the secondary EC2 instance.
+5. SNS invokes a Lambda function that uses Boto3 to start the secondary EC2 instance.
 
 6. The standby EC2 instance is started in eu-west-2.
 
-7. Route 53 routes traffic to the healthy region in eu-west-2.
+7. Route 53 routes traffic to the healthy EC2 Instance in region eu-west-2.
 
 ---
 
