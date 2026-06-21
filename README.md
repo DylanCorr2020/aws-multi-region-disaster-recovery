@@ -8,13 +8,9 @@ A primary EC2 Instance runs in **eu-west-1 (Ireland)**, while a secondary EC2 In
 
 The secondary EC2 instance is stopped to save costs.
 
-In the event that the primary EC2 fails, automated monitoring and event-driven automation initiate failover, bringing the secondary EC2 online and redirecting traffic via **Amazon Route 53**.
+In the event that the primary EC2 fails, automated monitoring and event-driven automation initiate failover, bringing the secondary EC2 online and redirecting traffic via **Amazon Route 53** to ensure there is no downtime for the application.
 
 ---
-
-## 🤔 Why Pilot Light?
-
-A Pilot Light strategy was chosen to balance **cost efficiency** and **recovery speed** when a failure occurs.
 
 ## 📘 Learn More
 
@@ -38,9 +34,9 @@ A full architecture diagram is included below:
 
 2. The health check detects a failure and changes the status to unhealthy.
 
-3. CloudWatch alarm enters the ALARM state when the Route 53 health check reports an unhealthy status.
+3. CloudWatch alarm enters the **ALARM** state when the Route 53 health check reports an unhealthy status.
 
-4. SNS publishes a notification to admin when CloudWatch enters the ALARM state.
+4. SNS publishes a notification to admin when CloudWatch enters the **ALARM** state.
 
 5. A Lambda function is invoked using Boto3 and starts the secondary EC2 instance.
 
@@ -66,7 +62,7 @@ A full architecture diagram is included below:
 
 - Amazon Route 53 (Health Checks & Failover Routing)
 
-### Observability
+### Monitoring
 
 - Amazon CloudWatch
 - Amazon SNS
@@ -74,8 +70,6 @@ A full architecture diagram is included below:
 ### Automation
 
 - AWS Lambda
-- AWS Systems Manager (SSM)
-- AWS IAM
 
 ### Infrastructure as Code
 
